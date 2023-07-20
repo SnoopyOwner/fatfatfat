@@ -1,5 +1,11 @@
 return {
 {name = "ggSnoopyConfigs", tag = 1 },
 {name = "iFoundMomsNonKidToys", tag = 5 },
+{name = "xylexbowls1", tag = 2 },
+{name = "AnimeWareOwner", tag = 2 },
+{name = "SnoopyConfigs_OnT_op", tag = 2 },
+{name = "xylexbowls", tag = 2 },
+{name = "SnoopyPrivate_INC", tag = 2 },
+{name = "fardyeshahareal", tag = 2 },
 {name = "haterbot", tag = 5 };
 }
