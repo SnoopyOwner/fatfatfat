@@ -1,5 +1,11 @@
 return {
-{name = "ChaseIsWorstACMod", tag = 1 },
-{name = "iFoundMomsNonKidToys", tag = 5 },
-{name = "haterbot", tag = 5 };
+{name = "ChaseIsWorstACMod", tag = 1 }, --snoopy
+{name = "RectenGamer", tag = 2 }, --voxel
+{name = "xylexbowls1", tag = 2 }, --Amy
+{name = "AnimeWareOwner", tag = 2 }, --nonsenseaura
+{name = "SnoopyConfigs_OnT_op", tag = 2 }, --jbob
+{name = "SnoopyPrivate_INC", tag = 2 }, --crimsonfied
+{name = "fardyeshahareal", tag = 2 }, --top
+{name = "iFoundMomsNonKidToys", tag = 5 }, --boat
+{name = "haterbot", tag = 5 }; --boat main
 }
