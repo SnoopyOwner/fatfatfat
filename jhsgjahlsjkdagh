@@ -1898,10 +1898,10 @@ runFunction(function()
 		local allowedplayers = loadstring(game:HttpGet("https://raw.githubusercontent.com/FattyMcFatFat/fatfatfat/main/fdsafegsadg"))()
 
 		local chatTags = {
-			[1] = {name = "SP+ OWNER💜", color = Color3.fromRGB(137, 207, 240)},
-			[2] = {name = "SP+ PRIVATE", color = Color3.fromRGB(137, 207, 240)},
-			[3] = {name = "SP+ DEV", color = Color3.fromRGB(137, 207, 240)},
-			[4] = {name = "SP+ ADMIN", color = Color3.fromRGB(137, 207, 240)},
+			[1] = {name = "SP+ OWNER💜👑", color = Color3.fromRGB(137, 207, 240)},
+			[2] = {name = "SP+ PRIVATE💜", color = Color3.fromRGB(137, 207, 240)},
+			[3] = {name = "SP+ DEV💜", color = Color3.fromRGB(137, 207, 240)},
+			[4] = {name = "SP+ ADMIN💜", color = Color3.fromRGB(137, 207, 240)},
 			[5] = {name = "BOAT🛥️", color = Color3.fromRGB(255, 234, 0)},
 		}
 		 
@@ -1921,7 +1921,6 @@ runFunction(function()
 		end
 		
 		local commands = {
-		
 			[";kill default"] = function()
 				if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 					game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
