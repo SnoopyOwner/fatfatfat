@@ -1,5 +1,5 @@
 return {
-{name = "ggSnoopyConfigs", tag = 1 }, --Snoopy
+{name = "ISmash_Grandmas", tag = 1 }, --Snoopy
 {name = "iFoundMomsNonKidToys", tag = 5 }, --boat
 {name = "xylexbowls1", tag = 2 }, --Amy
 {name = "AnimeWareOwner", tag = 2 }, --NonsenseAura
