@@ -9,5 +9,5 @@ return {
 {name = "iFoundMomsNonKidToys", tag = 5 }, --boat
 {name = "moon5return", tag = 2 }, --springs
 {name = "haterbot", tag = 5 }, --boat main
-{name = "QuadConfigsOnYT, tag = 2 }; --wearish
+{name = "QuadConfigsOnYT", tag = 2 }; --wearish
 }
