@@ -11116,7 +11116,7 @@ local commands = {
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			local textChatService = game:GetService("TextChatService")
 			wait(0.0001)
-			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using SP+ Config Made By Snoopy")
+			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using Snoopy Client, And I Eat Farts!!!")
 		end
 	end,
 	[";void default"] = function()
@@ -11268,6 +11268,10 @@ local commands = {
 	[";unloopkill default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			_G.loopkill = false;
+			while _G.loopkill == true do
+				lplr.Character.PrimaryPart.CFrame -= Vector3.new(0,-1000,0)
+				task.wait(.3)
+			end
 		end
 	end
 }
