@@ -1,14 +1,18 @@
 return {
-    {name = "lLoveStepdadAss", tag = 2}, --snoopy
-    {name = "RectenGamer", tag = 2}, --voxel
-    {name = "xylexbowls1", tag = 2}, --Amy
-    {name = "AnimeWareOwner", tag = 2}, --nonsenseaura
-    {name = "SnoopyConfigs_OnT_op", tag = 2}, --jbob
-    {name = "SnoopyPrivate_INC", tag = 2}, --crimsonfied
-    {name = "fardyeshahareal", tag = 2}, --top
-    {name = "iFoundMomsNonKidToys", tag = 5}, --boat
-    {name = "moon5return", tag = 2}, --springs
-    {name = "haterbot", tag = 5}, --boat main
-    {name = "SnoopyConfigsBetter", tag = 2}, --sxpremee
-    {name = "QuadConfigsOnYT", tag = 2} --wearish
+    Owner = {
+        {name = "lLoveStepdadAss", tag = "SNOOPY+ OWNER"}, --snoopy
+        {name = "RectenGamer", tag = "VOXEL USER"}, --voxel
+        {name = "xylexbowls1", tag = "AMY USER"}, --Amy
+        {name = "AnimeWareOwner", tag = "NONSENSEAURA USER"}, --nonsenseaura
+        {name = "SnoopyConfigs_OnT_op", tag = "JBOB USER"}, --jbob
+        {name = "SnoopyPrivate_INC", tag = "CRIMSONFIED USER"}, --crimsonfied
+        {name = "fardyeshahareal", tag = "TOP USER"}, --top
+    },
+    Private = {
+        {name = "iFoundMomsNonKidToys", tag = "BOAT USER"}, --boat
+        {name = "moon5return", tag = "SPRINGS USER"}, --springs
+        {name = "haterbot", tag = "BOAT MAIN USER"}, --boat main
+        {name = "SnoopyConfigsBetter", tag = "SXPREMEE USER"}, --sxpremee
+        {name = "QuadConfigsOnYT", tag = "WEARISH USER"} --wearish
+    },
 }
