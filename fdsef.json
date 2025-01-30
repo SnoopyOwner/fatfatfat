@@ -1,14 +1,10 @@
-{
-    "Owner": [
-        {
-            "id": "7935078967",
-            "attackable": false
-        }
-    ],
-    "Private": [
-        {
-            "id": "1234567890",
-            "attackable": false
-        }
-    ]
+whitelist = {
+    Owner = {
+        {id = "123456789"},
+        {id = "987654321"}
+    },
+    Private = {
+        {id = "112233445"},
+        {id = "998877665"}
+    }
 }
