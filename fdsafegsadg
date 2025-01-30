@@ -1,18 +1,18 @@
-return {
-    Owner = {
-        {name = "lLoveStepdadAss", tag = "SNOOPY+ OWNER"}, --snoopy
-        {name = "RectenGamer", tag = "VOXEL USER"}, --voxel
-        {name = "xylexbowls1", tag = "AMY USER"}, --Amy
-        {name = "AnimeWareOwner", tag = "NONSENSEAURA USER"}, --nonsenseaura
-        {name = "SnoopyConfigs_OnT_op", tag = "JBOB USER"}, --jbob
-        {name = "SnoopyPrivate_INC", tag = "CRIMSONFIED USER"}, --crimsonfied
-        {name = "fardyeshahareal", tag = "TOP USER"}, --top
+{
+    "private": {
+        "4907973363": {
+            "attackable": false
+        },
+        "1234567890": {
+            "attackable": true
+        }
     },
-    Private = {
-        {name = "iFoundMomsNonKidToys", tag = "BOAT USER"}, --boat
-        {name = "moon5return", tag = "SPRINGS USER"}, --springs
-        {name = "haterbot", tag = "BOAT MAIN USER"}, --boat main
-        {name = "SnoopyConfigsBetter", tag = "SXPREMEE USER"}, --sxpremee
-        {name = "QuadConfigsOnYT", tag = "WEARISH USER"} --wearish
-    },
+    "owner": {
+        "7935078967": {
+            "attackable": false
+        },
+        "1122334455": {
+            "attackable": true
+        }
+    }
 }
