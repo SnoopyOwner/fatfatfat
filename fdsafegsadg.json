@@ -1,7 +1,7 @@
 {
-  "Owner": [
-    { "id": "7935078967" },
-  ],
-  "Private": [
-  ]
+    "Owner": {
+        "7935078967": {
+            "attackable": false
+        }
+    }
 }
